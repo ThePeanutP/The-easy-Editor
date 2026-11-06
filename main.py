@@ -5,9 +5,11 @@ from PyQt5.QtWidgets import(QApplication,
                             QFileDialog,
                             QListWidget,
                             QLabel,
-                            QPixmap,
                             QVBoxLayout)
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap
 import os
+from PIL import Image
 
 window = QApplication([])
 main_win = QWidget()
@@ -43,8 +45,6 @@ class ImageProcessor():
         # show widget
         image.show()
 
-
-
 def chooseworkdir():
     global workdir
     workdir = QFileDialog.getExistingDirectory()
@@ -65,6 +65,14 @@ def showfilenamelist():
     leftside.clear()
     for p in ph:
         leftside.addItem(p)
+
+def showchosenimage():
+    if leftside.currentRow()>=0:
+        filename = leftside.currentItem().text()
+        workimage.loadImage(filename)
+        imagepath = os.path.join(workdir, workimage.filename)
+        image_path = os.path.join(workdir, workimage.filename)
+        workimage.showImage(image_path)
 
 #!row column
 row1 = QHBoxLayout()
@@ -95,6 +103,9 @@ col2.addLayout(row1)
 row2.addLayout(col1,stretch=1)
 row2.addLayout(col2,stretch=3)
 main_win.setLayout(row2)
+
+workimage = ImageProcessor()
+leftside.currentRowChanged.connect(showchosenimage)
 
 main_win.show()
 window.exec_()
