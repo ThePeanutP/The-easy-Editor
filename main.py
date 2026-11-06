@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import(QApplication,
                             QFileDialog,
                             QListWidget,
                             QLabel,
+                            QPixmap,
                             QVBoxLayout)
 import os
 
@@ -28,6 +29,20 @@ class ImageProcessor():
         image_path = os.path.join(workdir, filename)
         # Open Image and store in self.image
         self.image = Image.open(image_path)
+
+    def showImage(self, path):
+        image.hide()
+        # Load image to pixmapimage
+        pixmapimage = QPixmap(path)
+        # find width amd height of widget
+        w, h = image.width(), image.height()
+        # Resize image to fit widget and keep same ratio
+        pixmapimage = pixmapimage.scaled(w, h, Qt.KeepAspectRatio)
+        # set image to widget
+        image.setPixmap(pixmapimage)
+        # show widget
+        image.show()
+
 
 
 def chooseworkdir():
