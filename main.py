@@ -13,8 +13,11 @@ main_win = QWidget()
 main_win.setWindowTitle("F12 Promax")
 main_win.resize(700,400)
 btn_dir = QPushButton("Folder")
-workdir = QFileDialog.getExistingDirectory()
-filenames = os.listdir(workdir)
+workdir = ""
+def chooseworkdir():
+    global workdir
+    workdir = QFileDialog.getExistingDirectory()
+
 def filter(filename,extention):
     photofiles = []
     for file in filename:
@@ -23,13 +26,23 @@ def filter(filename,extention):
                 photofiles.append(file)
     return photofiles
 
-#row column
+def showfilenamelist():
+    extention=["png","jpg"]
+    chooseworkdir()
+    filenames = os.listdir(workdir)
+    ph = filter(filenames,extention)
+    leftside.clear()
+    for p in ph:
+        leftside.addItem(p)
+
+#!row column
 row1 = QHBoxLayout()
 row2 = QHBoxLayout()
-col1 = QVBoxLayout() #lower line
-col2 = QVBoxLayout() #image
+col1 = QVBoxLayout() #todo lower line
+col2 = QVBoxLayout() #? image
 
-# make widget 
+#* make widget 
+btn_dir.clicked.connect(showfilenamelist)
 left = QPushButton("left")
 right = QPushButton("right")
 mirror = QPushButton("mirror")
