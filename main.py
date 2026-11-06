@@ -14,6 +14,22 @@ main_win.setWindowTitle("F12 Promax")
 main_win.resize(700,400)
 btn_dir = QPushButton("Folder")
 workdir = ""
+
+class ImageProcessor():
+    def __init__(self, images = None, filename = None, sub_folder_name = None):
+        self.images = images
+        self.filename = filename
+        self.sub_folder_name = sub_folder_name
+
+    def loadImage(self, filename):
+        # images.png
+        self.filename = filename
+        # /Users/mac/Desktop/algo/PenutP(Panu)/TheEasyEditor/The-easy-Editor/imageseasy/images.png
+        image_path = os.path.join(workdir, filename)
+        # Open Image and store in self.image
+        self.image = Image.open(image_path)
+
+
 def chooseworkdir():
     global workdir
     workdir = QFileDialog.getExistingDirectory()
