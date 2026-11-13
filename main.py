@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import(QApplication,
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 import os
-from PIL import Image
+from PIL import Image, ImageFilter
 
 window = QApplication([])
 main_win = QWidget()
@@ -45,6 +45,38 @@ class ImageProcessor():
         # show widget
         image.show()
 
+    def saveimage(self):
+        path = os.path.join(workdir, self.save_dir)
+        if not(os.path.exists(path) or os.path.isdir(path)):
+            os.mkdir(path)
+        image_path = os.path.join(path, self.filename)
+        self.image.save(image_path)
+    
+    def dobw(self):
+        self.image = self.image.convert("L")
+        self.saveimage()
+        image_path = os.path.join(workdir, self.savedir, self.filename)
+
+    def dorotatel(self):
+            self.image = self.image.transpose(Image.ROTATE_270)
+            self.saveimage()
+            image_path = os.path.join(workdir, self.savedir, self.filename)
+
+    def dorotater(self):
+            self.image = self.image.transpose(Image.ROTATE_90)
+            self.saveimage()
+            image_path = os.path.join(workdir, self.savedir, self.filename)
+
+    def domirror(self):
+            self.image = self.image.transpose(Image.FLIP_LEFT_RIGHT)
+            self.saveimage()
+            image_path = os.path.join(workdir, self.savedir, self.filename)
+
+    def dosharpen(self):
+            self.image = Image(ImageFilter.SHARPEN)
+            self.saveimage()
+            image_path = os.path.join(workdir, self.savedir, self.filename)
+
 def chooseworkdir():
     global workdir
     workdir = QFileDialog.getExistingDirectory()
@@ -77,8 +109,10 @@ def showchosenimage():
 #!row column
 row1 = QHBoxLayout()
 row2 = QHBoxLayout()
-col1 = QVBoxLayout() #todo lower line
+col1 = QVBoxLayout() #todo lower line 
 col2 = QVBoxLayout() #? image
+
+workimage = ImageProcessor()
 
 #* make widget 
 btn_dir.clicked.connect(showfilenamelist)
@@ -87,6 +121,11 @@ right = QPushButton("right")
 mirror = QPushButton("mirror")
 sharpness = QPushButton("sharpness")
 bw = QPushButton("b/w")
+left.clicked.connect(workimage.dorotatel)
+right.clicked.connect(workimage.dorotater)
+mirror.clicked.connect(workimage.domirror)
+sharpness.clicked.connect(workimage.dosharpen)
+bw.clicked.connect(workimage.dobw)
 leftside = QListWidget() 
 image= QLabel("image")
 
@@ -104,7 +143,6 @@ row2.addLayout(col1,stretch=1)
 row2.addLayout(col2,stretch=3)
 main_win.setLayout(row2)
 
-workimage = ImageProcessor()
 leftside.currentRowChanged.connect(showchosenimage)
 
 main_win.show()
