@@ -45,6 +45,8 @@ class ImageProcessor():
         # show widget
         image.show()
 
+
+    #! v pin error: 52
     def saveimage(self):
         path = os.path.join(workdir, self.save_dir)
         if not(os.path.exists(path) or os.path.isdir(path)):
@@ -55,27 +57,27 @@ class ImageProcessor():
     def dobw(self):
         self.image = self.image.convert("L")
         self.saveimage()
-        image_path = os.path.join(workdir, self.savedir, self.filename)
+        image_path = os.path.join(workdir, self.save_dir, self.filename)
 
     def dorotatel(self):
             self.image = self.image.transpose(Image.ROTATE_270)
             self.saveimage()
-            image_path = os.path.join(workdir, self.savedir, self.filename)
+            image_path = os.path.join(workdir, self.save_dir, self.filename)
 
     def dorotater(self):
             self.image = self.image.transpose(Image.ROTATE_90)
             self.saveimage()
-            image_path = os.path.join(workdir, self.savedir, self.filename)
+            image_path = os.path.join(workdir, self.save_dir, self.filename)
 
     def domirror(self):
             self.image = self.image.transpose(Image.FLIP_LEFT_RIGHT)
             self.saveimage()
-            image_path = os.path.join(workdir, self.savedir, self.filename)
+            image_path = os.path.join(workdir, self.save_dir, self.filename)
 
     def dosharpen(self):
-            self.image = Image(ImageFilter.SHARPEN)
+            self.image = self.image.filter(ImageFilter.SHARPEN)
             self.saveimage()
-            image_path = os.path.join(workdir, self.savedir, self.filename)
+            image_path = os.path.join(workdir, self.save_dir, self.filename)
 
 def chooseworkdir():
     global workdir
