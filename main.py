@@ -19,10 +19,10 @@ btn_dir = QPushButton("Folder")
 workdir = ""
 
 class ImageProcessor():
-    def __init__(self, images = None, filename = None, sub_folder_name = None):
+    def __init__(self, images = None, filename = None, save_dir = "Edit"):
         self.images = images
         self.filename = filename
-        self.sub_folder_name = sub_folder_name
+        self.save_dir = save_dir
 
     def loadImage(self, filename):
         # images.png
