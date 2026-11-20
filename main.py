@@ -48,11 +48,18 @@ class ImageProcessor():
 
     #! v pin error: 52
     def saveimage(self):
-        path = os.path.join(workdir, self.save_dir)
-        if not(os.path.exists(path) or os.path.isdir(path)):
-            os.mkdir(path)
+        print("workdir:", workdir)
+        print("save_dir:", self.save_dir)
+        workdir_split = workdir.split("/")
+        if workdir_split[-1] == self.save_dir:
+            path = workdir
+        else:    
+            path = os.path.join(workdir, self.save_dir)
+            if not(os.path.exists(path) or os.path.isdir(path)):
+                os.mkdir(path)
         image_path = os.path.join(path, self.filename)
         self.image.save(image_path)
+        self.showImage(image_path)
     
     def dobw(self):
         self.image = self.image.convert("L")
